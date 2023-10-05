@@ -14,6 +14,15 @@ os.makedirs('plots', exist_ok=True)
 features = data[['Pclass']]
 labels = data['Survived']
 
+# Create a bar plot showing the distribution of passengers by class
+class_distribution = data['Pclass'].value_counts()
+plt.figure(figsize=(8, 6))
+sns.barplot(x=class_distribution.index, y=class_distribution.values)
+plt.xlabel('Class')
+plt.ylabel('Count')
+plt.title('Passenger Class Distribution')
+plt.savefig('plots/class_distribution.png')
+
 # Split the dataset into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=42)
 
