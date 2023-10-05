@@ -12,23 +12,11 @@ import os
 # Load the dataset
 df = pd.read_csv('50_Startups.csv')
 os.makedirs('plots', exist_ok=True)
-state_transformer = Pipeline(steps=[
-    ('onehot', OneHotEncoder(handle_unknown='ignore'))
-])
+ct = ColumnTransformer(transformers=[('encoder', OneHotEncoder(), [3])], remainder='passthrough')
+X = pd.DataFrame(ct.fit_transform(X))
 
-# Define a column transformer to apply transformations to specific columns
-preprocessor = ColumnTransformer(
-    transformers=[
-        ('state', state_transformer, ['State'])
-    ],
-    remainder='passthrough'
-)
-
-# Create a pipeline for preprocessing and modeling
-model = Pipeline(steps=[
-    ('preprocessor', preprocessor),
-    ('regressor', LinearRegression())
-])
+# Rename the columns after one-hot encoding
+X.columns = ['State_' + str(i) for i in range(X.shape[1])]
 # Function to fit and plot regression with given test size
 def fit_and_plot(test_size):
     # Split data into training and testing sets
