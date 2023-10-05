@@ -12,6 +12,9 @@ import os
 # Load the dataset
 df = pd.read_csv('50_Startups.csv')
 os.makedirs('plots', exist_ok=True)
+# Separate features (X) and target (y)
+X = df[['R&D Spend', 'Administration', 'Marketing Spend', 'State']]
+y = df['Profit']
 ct = ColumnTransformer(transformers=[('encoder', OneHotEncoder(), [3])], remainder='passthrough')
 X = pd.DataFrame(ct.fit_transform(X))
 
@@ -19,9 +22,7 @@ X = pd.DataFrame(ct.fit_transform(X))
 X.columns = ['State_' + str(i) for i in range(X.shape[1])]
 # Function to fit and plot regression with given test size
 def fit_and_plot(test_size):
-    # Split data into training and testing sets
-    X = df[['R&D Spend', 'Administration', 'Marketing Spend', 'State']]
-    y = df['Profit']
+
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=42)
 
     # Fit a linear regression model
