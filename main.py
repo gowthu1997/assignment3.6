@@ -6,6 +6,7 @@ import seaborn as sns
 
 # Load Titanic dataset
 data = pd.read_csv('train.csv')
+os.makedirs('plots', exist_ok=True)
 
 # Preprocess the dataset (feature engineering, etc.)
 # For simplicity, we'll use Pclass as a feature and Survived as the label
